@@ -10,14 +10,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OnboardingNotificationConsumer {
+public class NotificationsConsumer {
   private final EmailService emailService;
 
-  //  @KafkaListener(
-//          topics = "onboarding-confirmation",
-//          groupId = "${spring.kafka.consumer.group-id:notification-service}",
-//          containerFactory = "kafkaListenerContainerFactory"
-//  )
   @KafkaListener(
           topics = "onboarding-confirmation",
           groupId = "${spring.kafka.consumer.group-id:notification-service}"
@@ -27,9 +22,7 @@ public class OnboardingNotificationConsumer {
     log.info("Received onboarding notification request: {}", request);
 
     try {
-      System.out.println("Shazzar on this one!!!");
-      System.out.println("The request: ___________________________" + request);
-//      emailService.sendOnboardingConfirmationEmail(request);
+      emailService.sendOnboardingMail(request.customerFirstname(), request.customerEmail());
       log.info("Successfully processed onboarding notification for user: {}", request.customerEmail());
     } catch (Exception e) {
       log.error("Failed to process onboarding notification: {}", e.getMessage(), e);
