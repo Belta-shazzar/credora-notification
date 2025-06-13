@@ -1,5 +1,6 @@
 package com.credora.notification.email;
 
+import com.credora.notification.shared.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,8 @@ public class EmailService {
   }
 
   public void sendOnboardingMail(String firstName, String email) {
+    String token = Utils.generateUrlSafeToken(60);
+//    Cache the token in Redis
     String subject = "You’re Almost In! Confirm Your Credora Account";
     String body = "Hi " + firstName + ",\n" +
             "\n" +
@@ -37,7 +40,7 @@ public class EmailService {
             "\n" +
             "To activate your account and start exploring financial tools built just for you, kindly click the link to confirm your email address:\n" +
             "\n" +
-            String.format("%s/api/v1/auth/verify-email/?token=%s", baseUrl, Utils.generateUrlSafeToken(60));
+            String.format("%s/api/v1/auth/verify-email/?token=%s", baseUrl, token);
 
     this.sendMail(email, subject, body);
   }

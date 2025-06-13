@@ -4,6 +4,6 @@ public record OnboardingNotificationRequest(
         String customerFirstname,
         String customerLastname,
         String customerEmail,
-        String onboardingReference
+        String phoneNumber
 ) {
 }

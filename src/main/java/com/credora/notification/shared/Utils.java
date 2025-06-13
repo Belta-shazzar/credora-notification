@@ -1,9 +1,10 @@
-package com.credora.notification.email;
+package com.credora.notification.shared;
 
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Random;
 
 @Component
 public class Utils {
@@ -20,4 +21,17 @@ public class Utils {
             ? base64UrlEncoded.substring(0, truncateLength)
             : base64UrlEncoded;
   }
+
+  public static int generateRandNumber(int length) {
+    if (length <= 0) {
+      throw new IllegalArgumentException("Length must be greater than 0");
+    }
+
+    Random random = new Random();
+    int lowerBound = (int) Math.pow(10, length - 1);
+    int upperBound = (int) Math.pow(10, length) - 1;
+
+    return lowerBound + random.nextInt(upperBound - lowerBound + 1);
+  }
+
 }
